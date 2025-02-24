@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap Layout dengan Looping</title>
+    <!-- Link Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            border: 2px solid white;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        .row {
+            border: 2px solid white;
+            padding: 15px;
+            margin: 10px;
+        }
+        .col {
+            border: 2px solid white;
+            padding: 10px;
+            margin: 10px;
+        }
+        body {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h5>Container</h5>
+    <div class="row justify-content-center">
+        <h6>Row</h6>
+        
+        <% data.forEach(function(item, index) { %>
+            <div class="col-6">
+                <h6>Col <%= index + 1 %></h6>
+                <p>Nama Kategori: <%= item.nama_kategori %></p>
+            </div>
+        <% }); %>
+
+    </div>
+</div>
+
+<div class="container">
+    <% if (message.success) { %>
+    <div class="alert alert-info" role="alert">
+        <%= message.success %>
+    </div>
+    <% } %>
+    <div class="row">
+        <div class="col">
+            <a href="/Category1/create" class="btn btn-sn btn-success">Tambah</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">A</th>
+                        <th scope="col">Name</th>
+                        <th colspan="2" scope="col">Meki</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i = 0; i < data.length; i++){ %>
+                    <tr>
+                        <th scope="row"><%= (i+1) %></th>
+                        <td><%= data[i].name_keregor1 %></td>
+                        <td>
+                            <a href="/Category1/edit/<%= data[i].id_keregor1 %>" class="btn btn-sn btn-warning">Edit</a>
+                            <a href="/Category1/delete/<%= data[i].id_keregor1 %>" class="btn btn-sn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Link Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
