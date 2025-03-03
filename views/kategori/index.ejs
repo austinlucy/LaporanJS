@@ -10,10 +10,20 @@
 
 <body>
     <div class="d-flex justify-content-center mt-4 mb-4">
-        <div class="container py-4 bg-light p-4 rounded ">
+        <div class="container py-4 bg-light p-4 rounded">
             <h1 class="mb-4 text-center">Data Kategori</h1>
-            <button type="button" class="btn btn-info mb-3"><a href="/kategori/create">Tambah </a></button>
-           
+            <button type="button" class="btn btn-info mb-3"><a href="/kategori/create" class="text-white text-decoration-none">Tambah</a></button>
+
+            <% if (messages.success) { %>
+            <div class="alert alert-info" role="alert">
+                <%- messages.success %>
+            </div>
+            <% } %>
+            <% if (messages.error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%- messages.error %>
+            </div>
+            <% } %>
 
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center">
@@ -25,28 +35,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        < % for(var i=0; i < data.length; i++){ %>
-                            <tr>
-                                <th scope="row">
-                                    <%= (i+1) %>
-                                </th>
-                                <td>
-                                    <%= data[i].nama_kategori %>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal">Delete</button>
-                                </td>
-                            </tr>
-                            < % } %>
+                        <% for(var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <th scope="row">
+                                <%= (i+1) %>
+                            </th>
+                            <td>
+                                <%= data[i].nama_kategori %>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm">
+                                    <a href="/kategori/edit/<%= data[i].id_kategori %>" class="text-white text-decoration-none">Edit</a>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                    data-id="<%= data[i].id_kategori %>">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,13 +72,22 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger">Hapus</button>
+                    <a id="confirmDelete" href="#" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var id = button.getAttribute('data-id');
+            var confirmDelete = document.getElementById('confirmDelete');
+            confirmDelete.href = "/kategori/delete/" + id;
+        });
+    </script>
 </body>
 
 </html>
