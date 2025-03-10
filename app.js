@@ -10,6 +10,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var kategoriRouter = require('./routes/kategori');
+var mahasiswaRouter = require('./routes/mahasiswa'); // Tambahkan Router Mahasiswa
 
 var app = express();
 
@@ -23,27 +24,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-  cookie: {
-    maxAge: 6000
-  },
-  store: new session.MemoryStore,
-  saveUninitialized: true,
-  resave: 'true',
-  secret: 'secret'
-}))
-
-app.use(flash()) //gunakan flashh express menggunakan use 
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/kategori', kategoriRouter);
-
 // Setup session
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { maxAge: 6000 }
 }));
 
 // Setup flash messages
@@ -52,6 +38,7 @@ app.use(flash());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/kategori', kategoriRouter);
+app.use('/mahasiswa', mahasiswaRouter); // Tambahkan Router Mahasiswa
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,7 +47,6 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
@@ -70,3 +56,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+app.js
