@@ -1,20 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../config/database'); // Sesuaikan dengan koneksi database Anda
+var db = require('../config/database');
 
-// Ambil daftar mahasiswa dari database
 router.get('/', function(req, res, next) {
     db.query('SELECT * FROM mahasiswa', function(err, rows) {
         if (err) {
             req.flash('error', err);
-            res.render('mahasiswa/index', { mahasiswa: [] }); // Pastikan mahasiswa didefinisikan
+            res.render('mahasiswa/index', { mahasiswa: [] }); 
         } else {
             res.render('mahasiswa/index', { mahasiswa: rows });
         }
     });
 });
 
-// Tampilkan form tambah mahasiswa
+
 router.get('/tambah', function(req, res) {
     res.render('mahasiswa/tambah');
 });
@@ -23,9 +22,9 @@ router.get('/tambah', function(req, res) {
 router.post('/tambah', function(req, res) {
     var { nama, nrp, tgl_lahir, jenis_kelamin, agama, hoby, alamat, program_studi } = req.body;
 
-    console.log("Data yang diterima:", req.body); // Debugging log
+    console.log("Data yang diterima:", req.body);
 
-    // Pastikan tidak ada nilai yang kosong atau undefined
+
     if (!nama || !nrp || !tgl_lahir || !jenis_kelamin || !alamat || !program_studi) {
         req.flash('error', 'Semua bidang wajib diisi!');
         return res.redirect('/mahasiswa/tambah');
@@ -44,7 +43,7 @@ router.post('/tambah', function(req, res) {
             return res.redirect('/mahasiswa/tambah');
         }
 
-        // Jika tabel ada, jalankan query insert
+       
         db.query(
             `INSERT INTO mahasiswa (nama, nrp, tgl_lahir, jenis_kelamin, agama, hoby, alamat, program_studi) 
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -65,7 +64,7 @@ router.post('/tambah', function(req, res) {
 
 
 
-// Tampilkan form edit mahasiswa
+
 router.get('/edit/:id', function(req, res) {
     var id = req.params.id;
     db.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id], function(err, rows) {
@@ -106,7 +105,6 @@ router.post("/hapus/:id", (req, res) => {
     });
 });
 
-// Tampilkan form edit mahasiswa
 router.get('/edit/:id', function(req, res) {
     var id = req.params.id;
     db.query('SELECT * FROM mahasiswa WHERE id_mahasiswa = ?', [id], function(err, rows) {
@@ -119,7 +117,7 @@ router.get('/edit/:id', function(req, res) {
     });
 });
 
-// Proses update data mahasiswa
+
 router.post('/edit/:id', function(req, res) {
     var id = req.params.id;
     var { nama, nrp, tgl_lahir, jenis_kelamin, agama, hoby, alamat, program_studi } = req.body;

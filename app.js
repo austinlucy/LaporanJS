@@ -10,7 +10,9 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var kategoriRouter = require('./routes/kategori');
-var mahasiswaRouter = require('./routes/mahasiswa'); // Tambahkan Router Mahasiswa
+var mahasiswaRouter = require('./routes/mahasiswa');
+var kartu_keluargaRouter = require('./routes/kartu_keluarga');
+var produkRouter = require('./routes/produk');
 
 var app = express();
 
@@ -34,13 +36,25 @@ app.use(session({
 
 // Setup flash messages
 app.use(flash());
+var flash = require('connect-flash');
+var session = require('express-session');
+
+app.use(session({ secret: 'secret-key', resave: false, saveUninitialized: true }));
+app.use(flash());
+app.use(function(req, res, next) {
+    res.locals.messages = req.flash();
+    next();
+});
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/kategori', kategoriRouter);
-app.use('/mahasiswa', mahasiswaRouter); // Tambahkan Router Mahasiswa
+app.use('/mahasiswa', mahasiswaRouter);
+app.use('/kartu_keluarga', kartu_keluargaRouter);
+app.use('/produk', produkRouter);
 
-// catch 404 and forward to error handler
+
 app.use(function(req, res, next) {
   next(createError(404));
 });

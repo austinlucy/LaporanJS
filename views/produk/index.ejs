@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Produk</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 20px;
+      text-align: center;
+    }
+
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    a {
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin: 0 4px;
+      display: inline-block;
+    }
+
+    .edit {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .create {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+
+    .create:hover {
+      background-color: #0056b3;
+    }
+
+    a:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Daftar Produk</h2>
+
+  <a href="/produk/create" class="create">Tambah Produk</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nama</th>
+        <th>Harga</th>
+        <th>Kategori</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for(var i = 0; i < data.length; i++) { %>
+        <tr>
+          <th><%= (i+1) %></th>
+          <td><%= data[i].nama_produk %></td>
+          <td><%= data[i].harga_produk %></td>
+          <td><%= data[i].nama_kategori %></td>
+          <td>
+            <a href="/produk/edit/<%= data[i].id_produk %>" class="edit">Edit</a>
+            <a href="/produk/delete/<%= data[i].id_produk %>" class="delete">Hapus</a>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+</body>
+</html>
